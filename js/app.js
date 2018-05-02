@@ -1,5 +1,4 @@
 var calculadora = {
-
   teclaON: document.getElementById("on"),
   teclaSign: document.getElementById("sign"),
   teclaSqr: document.getElementById("raiz"),
