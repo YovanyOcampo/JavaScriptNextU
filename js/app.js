@@ -28,6 +28,7 @@ var calculadora = {
   },
   displayReset: function(){
     calculadora.display.innerHTML = "0"
+    sessionStorage.setItem("operacion", JSON.stringify('{"value": ' + 0 + ', "signo": "0", "operacion": "0"}'))
   },
   inverNumber: function(){
     if(display.innerHTML.length < 8 && display.innerHTML[0] != "-"){
@@ -72,19 +73,91 @@ var calculadora = {
     }
   },
   sumar: function(){
-    var result = 0
+    var dataSave = display.innerHTML
+    var jsonValue = ""
+    absValue = display.innerHTML
+    jsonValue = '{"value": ' + absValue + ', "operacion": "+"}'
+    sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+    console.log(JSON.parse(jsonValue))
+    if (dataSave[0] != "E"){
+      jsonValue = '{"value": ' + dataSave + ', "operacion": "+"}'
+      sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+      display.innerHTML = "0"
+    }
   },
   restar: function(){
-
+    var dataSave = display.innerHTML
+    var jsonValue = ""
+    absValue = display.innerHTML
+    jsonValue = '{"value": ' + absValue + ', "operacion": "-"}'
+    sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+    console.log(JSON.parse(jsonValue))
+    if (dataSave[0] != "E"){
+      jsonValue = '{"value": ' + dataSave + ', "operacion": "-"}'
+      sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+      display.innerHTML = "0"
+    }
   },
   multiplicar: function(){
-
+    var dataSave = display.innerHTML
+    var jsonValue = ""
+    absValue = display.innerHTML
+    jsonValue = '{"value": ' + absValue + ', "operacion": "*"}'
+    sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+    console.log(JSON.parse(jsonValue))
+    if (dataSave[0] != "E"){
+      jsonValue = '{"value": ' + dataSave + ', "operacion": "*"}'
+      sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+      display.innerHTML = "0"
+    }
   },
   dividir: function(){
-
+    var dataSave = display.innerHTML
+    var jsonValue = ""
+    absValue = display.innerHTML
+    jsonValue = '{"value": ' + absValue + ', "operacion": "/"}'
+    sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+    console.log(JSON.parse(jsonValue))
+    if (dataSave[0] != "E"){
+      jsonValue = '{"value": ' + dataSave + ', "operacion": "/"}'
+      sessionStorage.setItem("operacion", JSON.stringify(jsonValue))
+      display.innerHTML = "0"
+    }
   },
   calcular: function(){
-
+    var result = JSON.parse(JSON.parse(sessionStorage.getItem("operacion")))
+    var resultCalcular = 0
+    var numString = ""
+    var resultSign = ""
+    console.log(result);
+    switch(result.operacion) {
+      case "+":
+          resultCalcular = result.value + Number(calculadora.display.innerHTML)
+          break;
+      case "-":
+          resultCalcular = result.value - Number(calculadora.display.innerHTML)
+          break;
+      case "*":
+          resultCalcular = result.value * Number(calculadora.display.innerHTML)
+          break;
+      case "/":
+          resultCalcular = result.value / Number(calculadora.display.innerHTML)
+          resultCalcular = resultCalcular.toFixed(2)
+          break;
+      default:
+      }
+      numString = resultCalcular.toString()
+      if(numString.length > 8){
+        var auxNum = ""
+        for(var i = (numString.length-8); i<(numString.length); i++){
+          auxNum = auxNum + numString[i]
+        }
+        console.log(auxNum);
+        calculadora.display.innerHTML = "E" + auxNum
+      } else {
+        calculadora.display.innerHTML = resultCalcular
+      }
+      console.log(resultCalcular);
   }
 }
 
@@ -110,18 +183,22 @@ calculadora.teclaSum.addEventListener('click', function(e) {
   setTimeout(function(){
     calculadora.teclaSum.style = "width: 100%";
   },80)
+  calculadora.sumar()
 })
 calculadora.teclaRes.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaRes)
+  calculadora.restar()
 })
 calculadora.teclaMult.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaMult)
+  calculadora.multiplicar()
 })
 calculadora.teclaDiv.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaDiv)
+  calculadora.dividir()
 })
 calculadora.teclaIgual.addEventListener('click', function(e) {
   e.preventDefault()
