@@ -19,13 +19,32 @@ var calculadora = {
   tecla8: document.getElementById("8"),
   tecla9: document.getElementById("9"),
   tecla0: document.getElementById("cero"),
+  display: document.querySelector("#display"),
   cambioTamaño: function(objeto){
     objeto.style = "width: 95%"
     setTimeout(function(){
       objeto.style = "width: 100%";
     },80)
   },
-  display: document.querySelector("#display"),
+  displayReset: function(){
+    calculadora.display.innerHTML = "0"
+  },
+  inverNumber: function(){
+    if(display.innerHTML.length < 8 && display.innerHTML[0] != "-"){
+      if(display.innerHTML.length == 1 && display.innerHTML == 0){
+      } else {
+        display.innerHTML = "-" + display.innerHTML
+      }
+    }else if(display.innerHTML.length < 9 && display.innerHTML[0] == "-"){
+      var numDisplay = ""
+      for(var i = 1; i<display.innerHTML.length; i++){
+        numDisplay = numDisplay + display.innerHTML[i]
+      }
+      display.innerHTML = numDisplay
+    }else if(display.innerHTML.length == 8 && display.innerHTML[0] != "-"){
+      display.innerHTML = "E" + display.innerHTML
+    }
+  },
   print: function(string){
     if(display.innerHTML.length < 8){
       if(display.innerHTML == "0"){
@@ -51,26 +70,40 @@ var calculadora = {
     } else if(display.innerHTML.length == 8){
       display.innerHTML = "E" + display.innerHTML
     }
+  },
+  sumar: function(){
+    var result = 0
+  },
+  restar: function(){
+
+  },
+  multiplicar: function(){
+
+  },
+  dividir: function(){
+
+  },
+  calcular: function(){
+
   }
 }
 
 calculadora.teclaON.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaON)
-  calculadora.display.innerHTML = "0"
+  calculadora.displayReset()
 })
 calculadora.teclaSign.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaSign)
+  calculadora.inverNumber()
 })
 calculadora.teclaSqr.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaSqr)
 })
-calculadora.teclaDiv.addEventListener('click', function(e) {
-  e.preventDefault()
-  calculadora.cambioTamaño(calculadora.teclaDiv)
-})
+
+
 calculadora.teclaSum.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.teclaSum.style = "width: 95%"
@@ -78,23 +111,37 @@ calculadora.teclaSum.addEventListener('click', function(e) {
     calculadora.teclaSum.style = "width: 100%";
   },80)
 })
+calculadora.teclaRes.addEventListener('click', function(e) {
+  e.preventDefault()
+  calculadora.cambioTamaño(calculadora.teclaRes)
+})
 calculadora.teclaMult.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaMult)
 })
+calculadora.teclaDiv.addEventListener('click', function(e) {
+  e.preventDefault()
+  calculadora.cambioTamaño(calculadora.teclaDiv)
+})
+calculadora.teclaIgual.addEventListener('click', function(e) {
+  e.preventDefault()
+  calculadora.cambioTamaño(calculadora.teclaIgual)
+  calculadora.calcular()
+})
+
+
+
+
+
 calculadora.teclaPunto.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.teclaPunto)
   calculadora.print(".")
 })
-calculadora.teclaRes.addEventListener('click', function(e) {
-  e.preventDefault()
-  calculadora.cambioTamaño(calculadora.teclaRes)
-})
-calculadora.teclaIgual.addEventListener('click', function(e) {
-  e.preventDefault()
-  calculadora.cambioTamaño(calculadora.teclaIgual)
-})
+
+
+
+
 
 
 
@@ -104,10 +151,6 @@ calculadora.tecla1.addEventListener('click', function(e) {
   calculadora.print("1")
 //  calculadora.display.innerHTML = "1"
 })
-
-
-
-
 calculadora.tecla2.addEventListener('click', function(e) {
   e.preventDefault()
   calculadora.cambioTamaño(calculadora.tecla2)
